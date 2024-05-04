@@ -32,14 +32,32 @@ public class MatGen {
 	}
 
 	// Rotation matrix generator function
-	public static void rotate(Mat4 m, double angle, Vec3 rt) {
+	public static Mat4 rotate(Mat4 m, double angle, Vec3 rt) {
 		// Rotation matrices
 		Mat4 rx = new Mat4(1.0f);
 		Mat4 ry = new Mat4(1.0f);
 		Mat4 rz = new Mat4(1.0f);
 		
 		// Assign rotation on x values
+		rx.items[1][1] = cos(angle * rt.x);
+		rx.items[1][2] = -sin(angle * rt.x);
+		rx.items[2][1] = sin(angle * rt.x);
+		rx.items[2][2] = cos(angle * rt.x);
 		
+		// Assign rotation on y values
+		ry.items[0][0] = cos(angle * rt.y);
+		ry.items[2][0] = -sin(angle * rt.y);
+		ry.items[0][2] = sin(angle * rt.y);
+		ry.items[2][2] = cos(angle * rt.y);
+		
+		// Assign rotation on z values
+		rz.items[0][0] = cos(angle * rt.z);
+		rz.items[0][1] = -sin(angle * rt.z);
+		rz.items[1][0] = sin(angle * rt.z);
+		rz.items[1][1] = cos(angle * rt.z);
+		
+		// Return modified matrix
+		return dot(dot(rz, dot(ry, rx)), m);
 	}
 	
 	
